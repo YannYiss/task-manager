@@ -2,7 +2,10 @@
 const express = require('express');
 const dotenv = require('dotenv').config();
 const {errorHandler} = require('./middleware/errorMiddleware');
-const port = process.env.PORT;
+const connectDB = require('./config/db');
+const port = process.env.PORT || 6000;
+
+connectDB() //En esta linea crearemos la conexion a la base de datos y se tiene que mandar llamar antes la app
 
 const app = express();
 
