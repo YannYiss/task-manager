@@ -1,3 +1,4 @@
+//Este archivo va a contener todas las rutas y sus tipos de request, se crea una por cada endpoint
 const express = require('express');
 const router = express.Router();
 const {getTareas, updateTarea, deleteTarea, createTarea} = require('../controllers/tareasController');
