@@ -55,4 +55,4 @@ module.exports = {
     createTarea,
     updateTarea,
     deleteTarea
-}
+};

@@ -13,7 +13,8 @@ const app = express();
 app.use(express.json()); //este middleware se utiliza para poder leer los json
 app.use(express.urlencoded({extended:false})); //este otro se utiliza para saber como interpretar los datos recibidos
 
-app.use('/api/tareas', require('./routes/tareas'));
+app.use('/api/tareas', require('./routes/tareaRoutes'));
+app.use('/api/users', require('./routes/userRoutes.js'));
 
 app.use(errorHandler);
 
