@@ -5,7 +5,7 @@ const asyncHandler = require('express-async-handler'); //Esta libreria nos permi
 const Tarea = require('../models/tareaModel'); //En esta linea vamos a importar el modelo de datos que utilizara este endpoint
 
 const getTareas = asyncHandler(async(req, res) => {
-    const tareas = await Tarea.find();
+    const tareas = await Tarea.find({user: req.user.id});
     res.status(200).json(tareas);
 });
 
@@ -16,7 +16,8 @@ const createTarea = asyncHandler(async(req, res) => {
     };*/
     console.log(req.body.text);
     const tarea = await Tarea.create({
-        text: req.body.text
+        text: req.body.text,
+        user: req.user.id
     });
 
     res.status(200).json(tarea);
@@ -31,6 +32,11 @@ const updateTarea = asyncHandler(async(req, res) => {
         throw new Error('Por favor ingresa el ID a modificar');
     };
 
+    if (tarea.user.toString() !== req.user.id) {
+        res.status(401);
+        throw new Error('No tienes autorizacion para modificar esta tarea');
+    }
+
     const tareaUpdated = await Tarea.findByIdAndUpdate(req.params.id, req.body, {new: true})
 
     res.status(200).json(tareaUpdated);
@@ -43,6 +49,11 @@ const deleteTarea = asyncHandler(async(req, res) => {
         res.status(400);
         throw new Error('Tarea no encontrada');
     };
+
+    if (tarea.user.toString() !== req.user.id) {
+        res.status(401);
+        throw new Error('No tienes autorizacion para modificar esta tarea');
+    }
 
     await tarea.remove()
 
